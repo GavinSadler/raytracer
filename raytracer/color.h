@@ -12,11 +12,11 @@ void write_color(std::ostream& out, color pixel_color, int samples_per_pixel) {
 	auto g = pixel_color.y();
 	auto b = pixel_color.z();
 
-	// Divide each color component by the number of samples
+	// Divide each color component by the number of samples, and square root the scaled results for gamma=2.0
 	auto scale = 1.0 / samples_per_pixel;
-	r *= scale;
-	g *= scale;
-	b *= scale;
+	r = sqrt(scale * r);
+	g = sqrt(scale * g);
+	b = sqrt(scale * b);
 
 	// Now our pixels should be in the range of [0.0, 1.0], just clamp the values before casting to make sure we stay below 256
 	out << static_cast<int>(256 * clamp(r, 0.0, 0.999)) << ' '
